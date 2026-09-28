@@ -1,0 +1,35 @@
+package mx.familiasquesuman.app.ui.screens
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import mx.familiasquesuman.app.data.SampleData
+import mx.familiasquesuman.app.ui.components.BackTopBar
+import mx.familiasquesuman.app.ui.components.CampanaResumenCard
+
+/** Lista completa de campañas de donación — a la que llega el "Ver todas" de la sección
+ * "Campañas de Donación" en Participar. */
+@Composable
+fun TodasCampanasScreen(
+    onBack: () -> Unit,
+    onVerCampana: (String) -> Unit
+) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        BackTopBar(titulo = "Campañas de Donación", onBack = onBack)
+        LazyColumn(
+            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(SampleData.campanas, key = { it.id }) { campana ->
+                CampanaResumenCard(campana = campana, onClick = { onVerCampana(campana.id) })
+            }
+        }
+    }
+}
