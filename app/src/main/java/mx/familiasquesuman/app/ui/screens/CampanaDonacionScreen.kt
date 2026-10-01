@@ -34,7 +34,7 @@ import android.net.Uri
 import android.widget.Toast
 import mx.familiasquesuman.app.data.ArticuloDonacion
 import mx.familiasquesuman.app.data.SampleData
-import mx.familiasquesuman.app.ui.components.BrandTopBar
+import mx.familiasquesuman.app.ui.components.BackTopBar
 import mx.familiasquesuman.app.ui.components.GhostBorderCard
 import mx.familiasquesuman.app.ui.components.PrimaryButton
 import mx.familiasquesuman.app.ui.components.StatusTag
@@ -42,10 +42,16 @@ import mx.familiasquesuman.app.ui.components.UbicacionRow
 
 /** Basada en campana_de_donacion_azul (donación de artículos físicos, no dinero). */
 @Composable
-fun CampanaDonacionScreen(onRegistrarEntrega: () -> Unit) {
+fun CampanaDonacionScreen(
+    onRegistrarEntrega: () -> Unit,
+    onBack: () -> Unit
+) {
     val context = LocalContext.current
     Column(modifier = Modifier.fillMaxSize()) {
-        BrandTopBar(titulo = "Donaciones")
+        BackTopBar(
+            titulo = "Donaciones",
+            onBack = onBack
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()

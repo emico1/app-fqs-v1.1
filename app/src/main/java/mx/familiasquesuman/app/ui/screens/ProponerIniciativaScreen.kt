@@ -33,7 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import mx.familiasquesuman.app.ui.components.BrandTopBar
+import mx.familiasquesuman.app.ui.components.BackTopBar
 import mx.familiasquesuman.app.ui.components.PrimaryButton
 
 private data class TipoPropuesta(val etiqueta: String, val icono: ImageVector)
@@ -41,7 +41,8 @@ private data class TipoPropuesta(val etiqueta: String, val icono: ImageVector)
 /** Basada en proponer_iniciativa_azul_2 (Paso 1 de 3: información básica). */
 @Composable
 fun ProponerIniciativaScreen(
-    onEnviar: (titulo: String, descripcion: String) -> Unit
+    onEnviar: (titulo: String, descripcion: String) -> Unit,
+    onBack: () -> Unit
 ) {
     val tipos = listOf(
         TipoPropuesta("Actividad", Icons.Filled.Event),
@@ -55,7 +56,10 @@ fun ProponerIniciativaScreen(
     var contacto by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        BrandTopBar(titulo = "Proponer Iniciativa")
+        BackTopBar(
+            titulo = "Proponer Iniciativa",
+            onBack = onBack
+        )
         Column(
             modifier = Modifier
                 .fillMaxSize()

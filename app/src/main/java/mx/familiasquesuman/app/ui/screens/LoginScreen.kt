@@ -34,13 +34,16 @@ import mx.familiasquesuman.app.ui.components.FormasFlotantesFondo
 import mx.familiasquesuman.app.ui.components.PrimaryButton
 import mx.familiasquesuman.app.ui.components.SecondaryButton
 import mx.familiasquesuman.app.ui.components.TertiaryTextButton
+import mx.familiasquesuman.app.ui.components.BackTopBar
 
 /** Basada en login_familias_que_suman_azul_2 (incluye "Continuar con Google"). */
 @Composable
 fun LoginScreen(
     onIniciarSesion: () -> Unit,
     onCrearCuenta: () -> Unit,
+    onBack: () -> Unit,
     animacionesActivas: Boolean = true
+
 ) {
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
@@ -48,108 +51,122 @@ fun LoginScreen(
 
     Surface(color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()) {
         FormasFlotantesFondo(activo = animacionesActivas)
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .windowInsetsPadding(androidx.compose.foundation.layout.WindowInsets.statusBars)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 24.dp, vertical = 40.dp)
-        ) {
-            Text(
-                "Bienvenido de nuevo",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                "Ingresa a tu cuenta para continuar",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 8.dp, bottom = 32.dp)
+        Column(modifier = Modifier.fillMaxSize()) {
+            BackTopBar(
+                titulo = "Iniciar sesión",
+                onBack = onBack
             )
 
-            OutlinedTextField(
-                value = correo,
-                onValueChange = { correo = it },
-                label = { Text("Correo o teléfono") },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary
-                ),
-                modifier = Modifier.fillMaxWidth()
-            )
-            OutlinedTextField(
-                value = contrasena,
-                onValueChange = { contrasena = it },
-                label = { Text("Contraseña") },
-                singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary
-                ),
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp)
-            )
-
-            TertiaryTextButton(
-                text = "¿Olvidaste tu contraseña?",
-                onClick = {
-                    Toast.makeText(context, "La recuperación de contraseña todavía no está disponible: falta conectar el backend.", Toast.LENGTH_LONG).show()
-                },
-                modifier = Modifier.padding(top = 8.dp)
-            )
-
-            PrimaryButton(
-                text = "Iniciar sesión",
-                enabled = correo.isNotBlank() && contrasena.isNotBlank(),
-                onClick = onIniciarSesion,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-
-            Row(
-                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-                modifier = Modifier.padding(vertical = 20.dp)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp, vertical = 40.dp)
             ) {
-                HorizontalDivider(modifier = Modifier.weight(1f))
                 Text(
-                    "  o  ",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    "Bienvenido de nuevo",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-                HorizontalDivider(modifier = Modifier.weight(1f))
-            }
+                Text(
+                    "Ingresa a tu cuenta para continuar",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 8.dp, bottom = 32.dp)
+                )
 
-            SecondaryButton(
-                text = "Continuar con Google",
-                onClick = {
-                    Toast.makeText(context, "El inicio de sesión con Google todavía no está disponible: falta conectar el backend.", Toast.LENGTH_LONG).show()
+                OutlinedTextField(
+                    value = correo,
+                    onValueChange = { correo = it },
+                    label = { Text("Correo o teléfono") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.primary
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                OutlinedTextField(
+                    value = contrasena,
+                    onValueChange = { contrasena = it },
+                    label = { Text("Contraseña") },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.primary
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp)
+                )
+
+                TertiaryTextButton(
+                    text = "¿Olvidaste tu contraseña?",
+                    onClick = {
+                        Toast.makeText(
+                            context,
+                            "La recuperación de contraseña todavía no está disponible: falta conectar el backend.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    },
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+
+                PrimaryButton(
+                    text = "Iniciar sesión",
+                    enabled = correo.isNotBlank() && contrasena.isNotBlank(),
+                    onClick = onIniciarSesion,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
+
+                Row(
+                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                    modifier = Modifier.padding(vertical = 20.dp)
+                ) {
+                    HorizontalDivider(modifier = Modifier.weight(1f))
+                    Text(
+                        "  o  ",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    HorizontalDivider(modifier = Modifier.weight(1f))
                 }
-            )
 
-            Text(
-                "Al continuar aceptas nuestros Términos y Política de Privacidad.",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    "¿No tienes cuenta? ",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                SecondaryButton(
+                    text = "Continuar con Google",
+                    onClick = {
+                        Toast.makeText(
+                            context,
+                            "El inicio de sesión con Google todavía no está disponible: falta conectar el backend.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 )
-                TertiaryTextButton(text = "Crear cuenta", onClick = onCrearCuenta)
+
+                Text(
+                    "Al continuar aceptas nuestros Términos y Política de Privacidad.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp)
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        "¿No tienes cuenta? ",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    TertiaryTextButton(text = "Crear cuenta", onClick = onCrearCuenta)
+                }
             }
         }
     }
