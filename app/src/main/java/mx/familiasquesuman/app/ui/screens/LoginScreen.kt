@@ -36,6 +36,7 @@ import mx.familiasquesuman.app.ui.components.SecondaryButton
 import mx.familiasquesuman.app.ui.components.TertiaryTextButton
 import mx.familiasquesuman.app.ui.components.BackTopBar
 
+
 /** Basada en login_familias_que_suman_azul_2 (incluye "Continuar con Google"). */
 @Composable
 fun LoginScreen(
@@ -158,14 +159,18 @@ fun LoginScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 24.dp),
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                 ) {
                     Text(
-                        "¿No tienes cuenta? ",
+                        "¿No tienes cuenta?",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    TertiaryTextButton(text = "Crear cuenta", onClick = onCrearCuenta)
+                    TertiaryTextButton(
+                        text = "Crear cuenta",
+                        onClick = onCrearCuenta
+                    )
                 }
             }
         }
