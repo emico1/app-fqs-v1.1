@@ -54,7 +54,7 @@ private val rutasConBottomNav = TabDestino.entries.map { it.ruta }.toSet()
 private val rutasConDrawer = rutasConBottomNav
 
 @Composable
-fun AppNavHost() {
+fun AppNavHost(esPantallaAncha: Boolean) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val rutaActual = backStackEntry?.destination?.route
@@ -157,6 +157,7 @@ fun AppNavHost() {
                         Box(modifier = Modifier.fillMaxSize()) {
                             FormasFlotantesFondo(activo = appViewModel.fondoAnimadoActivo)
                             InicioScreen(
+                                esPantallaAncha = esPantallaAncha,
                                 onVerAsociacion = { id -> navController.navigate(Routes.asociacionDetalle(id)) },
                                 onVerActividad = { id -> navController.navigate(Routes.actividadDetalle(id)) },
                                 onVerTodasAsociaciones = { navController.navigate(Routes.EXPLORAR) { launchSingleTop = true } },

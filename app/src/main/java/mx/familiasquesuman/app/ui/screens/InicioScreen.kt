@@ -43,6 +43,7 @@ import mx.familiasquesuman.app.ui.components.UbicacionRow
 /** Basada en inicio_familias_que_suman_azul. */
 @Composable
 fun InicioScreen(
+    esPantallaAncha: Boolean,
     onVerAsociacion: (String) -> Unit,
     onVerActividad: (String) -> Unit,
     onVerTodasAsociaciones: () -> Unit,
@@ -60,41 +61,143 @@ fun InicioScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp)
         ) {
-            SeccionHeader(
-                titulo = "Asociaciones Recomendadas",
-                accion = "Ver todas",
-                onAccion = onVerTodasAsociaciones
-            )
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 4.dp)
-            ) {
-                items(SampleData.asociaciones.take(3)) { asociacion ->
-                    AsociacionDestacadaCard(asociacion = asociacion, onClick = { onVerAsociacion(asociacion.id) })
-                }
-            }
+            if (esPantallaAncha) {
 
-            SeccionHeader(
-                titulo = "Actividades Próximas",
-                accion = "Ver calendario",
-                onAccion = {
-                    android.widget.Toast.makeText(context, "El calendario completo todavía no está disponible.", android.widget.Toast.LENGTH_SHORT).show()
-                },
-                modifier = Modifier.padding(top = 32.dp)
-            )
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                SampleData.actividades.take(2).forEach { actividad ->
-                    ActividadFilaCard(actividad = actividad, onClick = { onVerActividad(actividad.id) })
-                }
-            }
+                // Vista horizontal
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(24.dp)
+                ) {
 
-            SeccionHeader(
-                titulo = "Campañas Activas",
-                accion = null,
-                onAccion = {},
-                modifier = Modifier.padding(top = 32.dp)
-            )
-            CampanaCard(campana = SampleData.campanas.first(), onClick = { onVerCampana(SampleData.campanas.first().id) })
+                    // Columna izquierda
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        SeccionHeader(
+                            titulo = "Asociaciones Recomendadas",
+                            accion = "Ver todas",
+                            onAccion = onVerTodasAsociaciones
+                        )
+
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                                vertical = 4.dp
+                            )
+                        ) {
+                            items(SampleData.asociaciones.take(3)) { asociacion ->
+                                AsociacionDestacadaCard(
+                                    asociacion = asociacion,
+                                    onClick = { onVerAsociacion(asociacion.id) }
+                                )
+                            }
+                        }
+                    }
+
+                    // Columna derecha
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        SeccionHeader(
+                            titulo = "Actividades Próximas",
+                            accion = "Ver calendario",
+                            onAccion = {
+                                android.widget.Toast.makeText(
+                                    context,
+                                    "El calendario completo todavía no está disponible.",
+                                    android.widget.Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        )
+
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            SampleData.actividades.take(2).forEach { actividad ->
+                                ActividadFilaCard(
+                                    actividad = actividad,
+                                    onClick = { onVerActividad(actividad.id) }
+                                )
+                            }
+                        }
+
+                        SeccionHeader(
+                            titulo = "Campañas Activas",
+                            accion = null,
+                            onAccion = {},
+                            modifier = Modifier.padding(top = 32.dp)
+                        )
+
+                        CampanaCard(
+                            campana = SampleData.campanas.first(),
+                            onClick = {
+                                onVerCampana(SampleData.campanas.first().id)
+                            }
+                        )
+                    }
+                }
+
+            } else {
+
+                // Vista vertical
+                SeccionHeader(
+                    titulo = "Asociaciones Recomendadas",
+                    accion = "Ver todas",
+                    onAccion = onVerTodasAsociaciones
+                )
+
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                        vertical = 4.dp
+                    )
+                ) {
+                    items(SampleData.asociaciones.take(3)) { asociacion ->
+                        AsociacionDestacadaCard(
+                            asociacion = asociacion,
+                            onClick = { onVerAsociacion(asociacion.id) }
+                        )
+                    }
+                }
+
+                SeccionHeader(
+                    titulo = "Actividades Próximas",
+                    accion = "Ver calendario",
+                    onAccion = {
+                        android.widget.Toast.makeText(
+                            context,
+                            "El calendario completo todavía no está disponible.",
+                            android.widget.Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    modifier = Modifier.padding(top = 32.dp)
+                )
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    SampleData.actividades.take(2).forEach { actividad ->
+                        ActividadFilaCard(
+                            actividad = actividad,
+                            onClick = { onVerActividad(actividad.id) }
+                        )
+                    }
+                }
+
+                SeccionHeader(
+                    titulo = "Campañas Activas",
+                    accion = null,
+                    onAccion = {},
+                    modifier = Modifier.padding(top = 32.dp)
+                )
+
+                CampanaCard(
+                    campana = SampleData.campanas.first(),
+                    onClick = {
+                        onVerCampana(SampleData.campanas.first().id)
+                    }
+                )
+            }
 
             Spacer(modifier = Modifier.height(32.dp))
         }
