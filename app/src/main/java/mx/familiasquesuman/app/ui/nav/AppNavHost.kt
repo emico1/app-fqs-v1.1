@@ -123,6 +123,7 @@ fun AppNavHost(esPantallaAncha: Boolean) {
                         LoginScreen(
                             onIniciarSesion = { navController.navigate(Routes.INICIO) { popUpTo(Routes.BIENVENIDA) { inclusive = true } } },
                             onCrearCuenta = { navController.navigate(Routes.REGISTRO) },
+                            onBack = { navController.popBackStack() },
                             animacionesActivas = appViewModel.fondoAnimadoActivo
                         )
                     }
@@ -257,6 +258,7 @@ fun AppNavHost(esPantallaAncha: Boolean) {
                         Box(modifier = Modifier.fillMaxSize()) {
                             FormasFlotantesFondo(activo = appViewModel.fondoAnimadoActivo)
                             ProponerIniciativaScreen(
+                                onBack = { navController.popBackStack() },
                                 onEnviar = { titulo, descripcion ->
                                     appViewModel.agregarPropuesta(titulo, descripcion)
                                     navController.navigate(Routes.PROPUESTA_ENVIADA) {
@@ -294,7 +296,10 @@ fun AppNavHost(esPantallaAncha: Boolean) {
                     composable(Routes.CAMPANA_DONACION) {
                         Box(modifier = Modifier.fillMaxSize()) {
                             FormasFlotantesFondo(activo = appViewModel.fondoAnimadoActivo)
-                            CampanaDonacionScreen(onRegistrarEntrega = { })
+                            CampanaDonacionScreen(
+                                onRegistrarEntrega = { },
+                                onBack = { navController.popBackStack() }
+                            )
                         }
                     }
                     composable(Routes.REPORTAR_EXPERIENCIA) {
@@ -330,6 +335,10 @@ fun AppNavHost(esPantallaAncha: Boolean) {
                         Box(modifier = Modifier.fillMaxSize()) {
                             FormasFlotantesFondo(activo = appViewModel.fondoAnimadoActivo)
                             TodasCampanasScreen(
+
+
+
+                                
                                 onBack = { navController.popBackStack() },
                                 onVerCampana = { navController.navigate(Routes.CAMPANA_DONACION) }
                             )

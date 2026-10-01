@@ -36,6 +36,8 @@ import mx.familiasquesuman.app.ui.components.SecondaryButton
 import mx.familiasquesuman.app.ui.theme.CategoriaAzul
 import mx.familiasquesuman.app.ui.theme.CategoriaNaranja
 import mx.familiasquesuman.app.ui.theme.CategoriaVerde
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.widthIn
 
 /**
  * Pantalla de bienvenida / splash. No estaba como pantalla independiente en el mockup
@@ -53,8 +55,13 @@ fun BienvenidaScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .windowInsetsPadding(androidx.compose.foundation.layout.WindowInsets.statusBars)
-                .padding(horizontal = 24.dp, vertical = 32.dp),
+                .windowInsetsPadding(androidx.compose.foundation.layout.WindowInsets.safeDrawing)
+                .padding(
+                    start = 24.dp,
+                    end = 24.dp,
+                    top = 32.dp,
+                    bottom = 48.dp
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -92,6 +99,7 @@ fun BienvenidaScreen(
 
             Box(
                 modifier = Modifier
+                    .widthIn(max = 400.dp)
                     .fillMaxWidth()
                     .aspectRatio(16f / 10f)
                     .background(
