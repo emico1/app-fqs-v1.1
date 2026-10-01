@@ -50,6 +50,10 @@ import coil.compose.AsyncImage
 import mx.familiasquesuman.app.ui.components.BackTopBar
 import mx.familiasquesuman.app.ui.components.PrimaryButton
 import mx.familiasquesuman.app.ui.components.SecondaryButton
+import androidx.compose.foundation.border
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.semantics.Role
 
 /** Basada en reportar_mala_experiencia. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,6 +72,23 @@ fun ReportarExperienciaScreen(
         Icons.Filled.SentimentNeutral,
         Icons.Filled.SentimentSatisfied,
         Icons.Filled.SentimentVerySatisfied
+
+
+    )
+    val etiquetas = listOf(
+        "Muy mala",
+        "Mala",
+        "Neutral",
+        "Buena",
+        "Muy buena"
+    )
+
+    val colores = listOf(
+        Color(0xFFD32F2F),
+        Color(0xFFEF6C00),
+        Color(0xFFFBC02D),
+        Color(0xFF7CB342),
+        Color(0xFF2E7D32)
     )
     var descripcion by remember { mutableStateOf("") }
     var fotoUri by remember { mutableStateOf<Uri?>(null) }
@@ -123,19 +144,20 @@ fun ReportarExperienciaScreen(
             }
 
             Text("Nivel de insatisfacción", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 24.dp, bottom = 12.dp))
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
                 niveles.forEachIndexed { index, icono ->
                     NivelSentimiento(
                         icono = icono,
+                        etiqueta = etiquetas[index],
+                        color = colores[index],
                         seleccionado = nivelSeleccionado == index,
-                        onClick = { nivelSeleccionado = index }
+                        onClick = { nivelSeleccionado = index },
+                        modifier = Modifier.weight(1f)
                     )
                 }
-            }
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("Muy mala", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text("Neutral", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                Text("", style = MaterialTheme.typography.labelSmall)
             }
 
             Text("Describe lo sucedido *", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 24.dp, bottom = 8.dp))
@@ -187,13 +209,51 @@ fun ReportarExperienciaScreen(
 }
 
 @Composable
-private fun NivelSentimiento(icono: ImageVector, seleccionado: Boolean, onClick: () -> Unit) {
-    Icon(
-        icono,
-        contentDescription = null,
-        tint = if (seleccionado) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier
-            .size(32.dp)
-            .selectable(selected = seleccionado, onClick = onClick)
-    )
+private fun NivelSentimiento(
+    icono: ImageVector,
+    etiqueta: String,
+    color: Color,
+    seleccionado: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .background(
+                color = if (seleccionado) {
+                    color.copy(alpha = 0.12f)
+                } else {
+                    Color.Transparent
+                },
+                shape = MaterialTheme.shapes.medium
+            )
+            .border(
+                width = 2.dp,
+                color = if (seleccionado) color else Color.Transparent,
+                shape = MaterialTheme.shapes.medium
+            )
+            .selectable(
+                selected = seleccionado,
+                role = Role.RadioButton,
+                onClick = onClick
+            )
+            .padding(vertical = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(
+            imageVector = icono,
+            contentDescription = null,
+            tint = color,
+            modifier = Modifier.size(32.dp)
+        )
+
+        Text(
+            text = etiqueta,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
 }
